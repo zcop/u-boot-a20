@@ -1,0 +1,16 @@
+// U-Boot overlay for A20 OLinuXino Micro: enable NAND (NFC) properly
+// NOTE: This is a *.dtsi include fragment (no /dts-v1/ and no root node).
+
+&nfc {
+    status = "okay";
+    pinctrl-names = "default";
+    /* Match your board DT: uses nand0_pins_a group */
+    pinctrl-0 = <&nand0_pins_a>;
+
+    /* Optional defaults for the first chip */
+    nand@0 {
+        nand-ecc-mode = "hw";
+        nand-on-flash-bbt;
+    };
+};
+
