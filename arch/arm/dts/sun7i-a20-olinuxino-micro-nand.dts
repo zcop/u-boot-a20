@@ -262,10 +262,19 @@
 			compatible = "fixed-partitions";
 			#address-cells = <1>;
 			#size-cells = <1>;
+			
+			/* Reserve first 8 MiB for SPL+U-Boot (room for bad blocks & copies) */
+			uboot@0 {
+                                label = "u-boot";
+                                reg = <0x00000000 0x00800000>;  /* 8 MiB */
+                                read-only;
+                        };
 
-			boot0@0     { label = "boot0"; reg = <0x00000000 0x00200000>; };
-			uboot@200000{ label = "uboot"; reg = <0x00200000 0x00200000>; };
-			main@400000 { label = "main";  reg = <0x00400000 0x1FC00000>; };
+			/* Use all remaining space for UBI Container */
+                        rootfs@800000 {
+                                label = "ubifs";
+                                reg = <0x00800000 0x00000000>;  /* 0 size = "to end of device" */
+                        };
 		};
 	};
 };
